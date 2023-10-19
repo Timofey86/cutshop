@@ -34,7 +34,7 @@ class RefreshCommand extends Command
             '--seed' => true,
         ]);
 
-        Storage::deleteDirectory('/images/products');
+        //Storage::delete('/images/products/');
 
         return self::SUCCESS;
     }
