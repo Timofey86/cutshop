@@ -9,6 +9,7 @@ use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use function Clue\StreamFilter\fun;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,21 +26,29 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::preventLazyLoading(!app()->isProduction());
-        Model::preventSilentlyDiscardingAttributes(!app()->isProduction());
+        Model::shouldBeStrict(app()->isLocal());
 
-        DB::whenQueryingForLongerThan(500,function (Connection $connection){
-            logger()
-                ->channel('telegram')
-                ->debug('whenQueryingForLongerThan: ' . $connection->query()->toSql());
-        });
-        $kernel = app(Kernel::class);
-        $kernel->whenRequestLifecycleIsLongerThan(
-            CarbonInterval::seconds(4), function (){
+        if (app()->isProduction()) {
+//            DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection) {
+//                logger()
+//                    ->channel('telegram')
+//                    ->debug('whenQueryingForLongerThan: ' . $connection->query()->toSql());
+//            });
+
+            DB::listen(function ($query) {
+                if ($query->time > 2000) {
+                    logger()
+                        ->channel('telegram')
+                        ->debug('query longer than 2s: ' . $query->sql, $query->bindings);
+                }
+            });
+
+            app(Kernel::class)->whenRequestLifecycleIsLongerThan(
+                CarbonInterval::seconds(4), function () {
                 logger()
                     ->channel('telegram')
-                    ->debug('whenRequestLifecycleIsLongerThan: '. request()->url());
+                    ->debug('whenRequestLifecycleIsLongerThan: ' . request()->url());
+            });
         }
-        );
     }
 }

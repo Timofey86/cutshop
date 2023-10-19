@@ -29,7 +29,8 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
         TelegramBotApi::sendMessage(
             $this->token,
             $this->chatId,
-            $record->formatted);
+            $record['formatted']);
+            //$record->formatted);
         //$record['formatted']
     }
 }

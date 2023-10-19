@@ -2,8 +2,9 @@
 
 namespace App\Services\Telegram;
 
-use App\Exceptions\TelegramApiException;
+use App\Services\Telegram\Exceptions\TelegramApiException;
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
 class TelegramBotApi
 {
@@ -27,7 +28,7 @@ class TelegramBotApi
             } else {
                 throw new TelegramApiException('Telegram API request was not successful.');
             }
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             throw new TelegramApiException('Failed to send message to Telegram: ' . $e->getMessage(), 0, $e);
         }
     }

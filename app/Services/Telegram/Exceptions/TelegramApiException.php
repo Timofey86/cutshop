@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Services\Telegram\Exceptions;
+
 
 class TelegramApiException extends \Exception
 {
