@@ -29,12 +29,12 @@ class RefreshCommand extends Command
         if (app()->isProduction()) {
             return self::FAILURE;
         }
+        Storage::deleteDirectory('images/products');
+        Storage::deleteDirectory('images/brands');
 
         $this->call('migrate:fresh', [
             '--seed' => true,
         ]);
-
-        //Storage::delete('/images/products/');
 
         return self::SUCCESS;
     }

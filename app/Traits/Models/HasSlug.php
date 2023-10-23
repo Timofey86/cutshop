@@ -3,15 +3,13 @@
 namespace App\Traits\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 trait HasSlug
 {
     protected static function bootHasSlug()
     {
-        static:: creating(function (Model $model) {
-            $slug = Str::slug($model->{self::slugFrom()});
-            $model->slug = static::makeUniqueSlug($slug);
+        static::creating(function (Model $model) {
+            $model->makeSlug();
         });
     }
 
@@ -20,12 +18,29 @@ trait HasSlug
         return 'title';
     }
 
-    protected static function makeUniqueSlug($slug)
+    protected function makeSlug(): void
+    {
+        if (!$this->{$this->slugColumn()}) {
+            $slug = $this->makeUniqueSlug(str($this->{$this->slugFrom()})
+                ->slug()
+                ->value()
+            );
+
+            $this->{$this->slugColumn()} = $this->{$this->slugColumn()} ?? $slug;
+        }
+    }
+
+    protected function slugColumn(): string
+    {
+        return 'slug';
+    }
+
+    private function makeUniqueSlug($slug)
     {
         $count = 1;
         $originalSlug = $slug;
 
-        while (static::slugExists($slug)) {
+        while ($this->slugExists($slug)) {
             $slug = $originalSlug . '-' . $count;
             $count++;
         }
@@ -33,9 +48,14 @@ trait HasSlug
         return $slug;
     }
 
-    protected static function slugExists($slug)
+    private function slugExists($slug): bool
     {
-        return static::where('slug', $slug)->exists();
+        $query = $this->newQuery()
+            ->where(self::slugColumn(), $slug)
+            ->where($this->getKeyName(), '!=', $this->getKey())
+            ->withoutGlobalScopes();
+
+        return $query->exists();
     }
 
 }
