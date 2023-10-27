@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Регистарция')
+@section('title', 'Регистрация')
 @section('content')
     <x-forms.auth-forms
         title="Регистарция"
