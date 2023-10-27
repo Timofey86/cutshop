@@ -21,9 +21,9 @@ class AuthController extends Controller
 {
     public function index(): Factory|Application|View|RedirectResponse
     {
-//        flash()->info('Test');
-//
-//        return redirect()->route('home');
+        flash()->info('Test');
+
+        return redirect()->route('home');
         return view('auth.index');
     }
 
@@ -36,7 +36,7 @@ class AuthController extends Controller
     {
         if (!auth()->attempt($request->validated())) {
             return back()->withErrors([
-                'email' => 'E-mail не валидный',
+                'email' => 'Пошел нахуй',
             ])->onlyInput('email');
         }
 

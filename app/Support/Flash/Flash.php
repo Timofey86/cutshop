@@ -36,8 +36,8 @@ class Flash
 
     private function flash(string $message, string $name): void
     {
-        $this->session->flash('MESSAGE_KEY', $message);
-        $this->session->flash('MESSAGE_CLASS_KEY', config("flash.$name", ''));
+        $this->session->flash(self::MESSAGE_KEY, $message);
+        $this->session->flash(self::MESSAGE_CLASS_KEY, config("flash.$name", ''));
     }
 
 }
