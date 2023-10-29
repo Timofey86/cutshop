@@ -2,17 +2,11 @@
 
 namespace App\Providers;
 
-use App\Faker\FakerImageProvider;
 use App\Http\Kernel;
-use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Faker\Factory;
-use Faker\Generator;
-use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
-use function Clue\StreamFilter\fun;
 
 class AppServiceProvider extends ServiceProvider
 {

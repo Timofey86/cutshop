@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use DomainException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use function Clue\StreamFilter\fun;
 
 class Handler extends ExceptionHandler
 {
@@ -26,6 +28,12 @@ class Handler extends ExceptionHandler
             if (app()->bound('sentry')) {
                 app('sentry')->captureException($e);
             }
+        });
+
+        $this->renderable(function (DomainException $exception){
+            flash()->alert($exception->getMessage());
+
+            return back();
         });
     }
 }

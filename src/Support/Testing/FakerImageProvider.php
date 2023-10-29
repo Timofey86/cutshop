@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Faker;
+namespace Support\Testing;
 
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use function base_path;
 
 class FakerImageProvider extends Base
 {
