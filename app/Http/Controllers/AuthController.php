@@ -116,7 +116,7 @@ class AuthController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             flash()->info(__($status));
 
-            redirect()->route('login');
+            return redirect()->route('login');
         }
 
 
