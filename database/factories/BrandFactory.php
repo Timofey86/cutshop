@@ -12,11 +12,13 @@ use JetBrains\PhpStorm\ArrayShape;
 class BrandFactory extends Factory
 {
 
-    #[ArrayShape(['title' => "string", 'thumbnail' => "string"])] public function definition(): array
+    #[ArrayShape(['title' => "string", 'thumbnail' => "string", 'on_home_page' => "boolean", 'sorting' => "integer"])] public function definition(): array
     {
         return [
             'title' => $this->faker->company(),
             'thumbnail' => $this->faker->loremflick('brands', 'images/brands'),
+            'on_home_page' => $this->faker->boolean(),
+            'sorting' => $this->faker->numberBetween(1,999)
         ];
     }
 }

@@ -10,17 +10,17 @@ class FakerImageProvider extends Base
 {
     public function loremflick(string $fixturesDir, string $storageDir): string
     {
-        if (!Storage::exists($storageDir)) {
-            Storage::makeDirectory($storageDir);
+        if (!Storage::exists('public'.'/'.$storageDir)) {
+            Storage::makeDirectory('public'.'/'.$storageDir);
         }
 
         $file = $this->generator->file(
             base_path("tests/Fixtures/images/$fixturesDir"),
-            Storage::path($storageDir),
+            Storage::path('public/'.$storageDir),
             false
         );
 
-        return '/storage/' . trim($storageDir,'/') . '/'. $file;
+        return /*'/storage/' .*/ trim($storageDir,'/') . '/'. $file;
     }
 
 }

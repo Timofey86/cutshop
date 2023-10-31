@@ -29,8 +29,8 @@ class RefreshCommand extends Command
         if (app()->isProduction()) {
             return self::FAILURE;
         }
-        Storage::deleteDirectory('images/products');
-        Storage::deleteDirectory('images/brands');
+        Storage::deleteDirectory('public/images/products');
+        Storage::deleteDirectory('public/images/brands');
 
         $this->call('migrate:fresh', [
             '--seed' => true,
