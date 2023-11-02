@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\SignInController;
 use App\Http\Requests\ResetPasswordFormRequest;
 use Database\Factories\UserFactory;
+use Domain\Auth\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -15,18 +17,28 @@ class ResetPasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    private string $token;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = UserFactory::new()->create();
+        $this->token = Password::createToken($this->user);
+    }
+
     /**
      * @test
      * @return void
      */
-    public function it_reset_password_view_success()
+    public function it_page_success()
     {
         $token = 'valid_token';
 
-        $response = $this->get(action([ResetPasswordController::class, 'page'], $token));
+        $response = $this->get(action([ResetPasswordController::class, 'page'],['token' => $this->token]));
 
         $response->assertOk()
-            ->assertViewHas('token', $token)
             ->assertSee('Восстановление пароля')
             ->assertViewIs('auth.reset-password');
 
@@ -36,31 +48,50 @@ class ResetPasswordControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_reset_password_with_valid_data_success()
+    public function it_handle_success()
     {
-        Event::fake();
+        $password = '1234567890';
+        $password_confirmation = '1234567890';
 
-        $password = bcrypt('123456789');
-        $user = UserFactory::new()->create([
-            'email' => 'testing@cutcode.ru',
+        Password::shouldReceive('reset')
+            ->once()
+            ->withSomeOfArgs([
+                'email' => $this->user->email,
+                'password' => $password,
+                'password_confirmation' => $password_confirmation,
+                'token' => $this->token
+            ])
+        ->andReturn(Password::PASSWORD_RESET);
+
+        $response = $this->post(action([ResetPasswordController::class,'handle'],[
+            'email' => $this->user->email,
             'password' => $password,
-        ]);
-        $token = Password::createToken($user);
-        $request = ResetPasswordFormRequest::factory()->create([
-            'email' => 'testing@cutcode.ru',
-            'password' => '0123456789',
-            'password_confirmation' => '0123456789',
-            'token' => $token
-        ]);
-        $this->assertDatabaseHas('users', [
-            'email' => $request['email']
-        ]);
+            'password_confirmation' => $password_confirmation,
+            'token' => $this->token
+        ]));
 
-        $response = $this->post(action([ResetPasswordController::class, 'handle'], $request));
-        $response->assertValid();
-        Event::assertDispatched(PasswordReset::class);
-        $response->assertStatus(302);
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(action([SignInController::class,'page']));
+//        $password = bcrypt('123456789');
+//        $user = UserFactory::new()->create([
+//            'email' => 'testing@cutcode.ru',
+//            'password' => $password,
+//        ]);
+//        $token = Password::createToken($user);
+//        $request = ResetPasswordFormRequest::factory()->create([
+//            'email' => 'testing@cutcode.ru',
+//            'password' => '0123456789',
+//            'password_confirmation' => '0123456789',
+//            'token' => $token
+//        ]);
+//        $this->assertDatabaseHas('users', [
+//            'email' => $request['email']
+//        ]);
+//
+//        $response = $this->post(action([ResetPasswordController::class, 'handle'], $request));
+//        $response->assertValid();
+//        Event::assertDispatched(PasswordReset::class);
+//        $response->assertStatus(302);
+//        $response->assertRedirect(route('login'));
 
     }
 

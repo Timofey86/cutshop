@@ -16,7 +16,7 @@ class SignInControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_login_page_success(): void
+    public function it_page_success(): void
     {
         $this->get(action([SignInController::class, 'page']))
             ->assertOk()
@@ -54,7 +54,7 @@ class SignInControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_sign_in_with_invalid_data_success():void
+    public function it_handle_fail(): void
     {
         $request = SignUpFormRequest::factory()->create([
             'email' => 'testing@cutcode.ru',
@@ -66,6 +66,7 @@ class SignInControllerTest extends TestCase
         $response->assertInvalid();
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['email']);
+        $this->assertGuest();
     }
 
 
@@ -83,6 +84,16 @@ class SignInControllerTest extends TestCase
             ->delete(action([SignInController::class, 'logOut']));
 
         $this->assertGuest();
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_logout_guest_middleware_fail(): void
+    {
+        $this->delete(action([SignInController::class, 'logOut']))
+            ->assertRedirect(route('home'));
     }
 
 }

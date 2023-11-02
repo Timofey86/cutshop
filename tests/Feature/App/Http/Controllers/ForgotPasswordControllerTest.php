@@ -12,11 +12,18 @@ class ForgotPasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function testingCredentials(): array
+    {
+        return [
+          'email' => 'testing@cutcode.ru'
+        ];
+    }
+
     /**
      * @test
      * @return void
      */
-    public function it_forgot_success(): void
+    public function it_page_success(): void
     {
         $this->get(action([ForgotPasswordController::class, 'page']))
             ->assertOk()
@@ -28,7 +35,7 @@ class ForgotPasswordControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_forgot_password_with_valid_email_success()
+    public function it_handle_success()
     {
         $user = UserFactory::new()->create([
             'email' => 'testing@cutcode.ru'
