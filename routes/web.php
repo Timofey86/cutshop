@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 //        ->middleware('throttle:auth')
 //        ->name('signIn');
 //
-//    //todo  3rd lesson
 //    Route::post('/sign-up', 'store')->name('store');
 //
 //    Route::get('/sign-up', 'signUp')

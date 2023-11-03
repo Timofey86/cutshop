@@ -13,6 +13,7 @@ class CategoryViewModel
 
     public function homePage(): Collection|array
     {
+        //todo Observer
        return Cache::rememberForever('category_home_page', function (){
             return Category::query()->homePage()->get();
         });
