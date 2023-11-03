@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\SocialAuthController;
-use App\Http\Requests\ForgotPasswordFormRequest;
 use Database\Factories\UserFactory;
 use DomainException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,6 +10,9 @@ use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Mockery\MockInterface;
 use Tests\TestCase;
+use function action;
+use function route;
+use function str;
 
 class SocialiteAuthControllerTest extends TestCase
 {

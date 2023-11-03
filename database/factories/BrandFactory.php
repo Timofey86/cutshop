@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Brand;
+use Domain\Catalog\Models\Brand;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -11,6 +11,7 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class BrandFactory extends Factory
 {
+    protected $model = Brand::class;
 
     #[ArrayShape(['title' => "string", 'thumbnail' => "string", 'on_home_page' => "boolean", 'sorting' => "integer"])] public function definition(): array
     {

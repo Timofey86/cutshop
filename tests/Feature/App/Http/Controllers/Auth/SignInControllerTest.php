@@ -1,12 +1,14 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\SignInController;
 use App\Http\Requests\SignUpFormRequest;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use function action;
+use function bcrypt;
+use function route;
 
 class SignInControllerTest extends TestCase
 {

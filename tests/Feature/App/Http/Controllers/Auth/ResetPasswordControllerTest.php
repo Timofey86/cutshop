@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\SignInController;
 use App\Http\Requests\ResetPasswordFormRequest;
 use Database\Factories\UserFactory;
 use Domain\Auth\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
+use function action;
+use function bcrypt;
 
 class ResetPasswordControllerTest extends TestCase
 {
