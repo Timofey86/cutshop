@@ -2,12 +2,11 @@
 
 namespace Domain\Catalog\ViewModels;
 
-use Domain\Catalog\Models\Category;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Cache;
+use Domain\Catalog\Models\Brand;
+use Illuminate\Support\Collection;
 use Support\Traits\Makeable;
 
-class CategoryViewModel
+class BrandViewModel
 {
     use Makeable;
 
@@ -15,7 +14,7 @@ class CategoryViewModel
     {
         //todo Observer
 //       return Cache::rememberForever('category_home_page', function (){
-            return Category::query()->homePage()->get();
+        return Brand::query()->homePage()->get();
 //        });
     }
 
