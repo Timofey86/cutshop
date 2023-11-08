@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Database\Factories\ProductFactory;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Tests\TestCase;
 
 class ThumbnailControllerTest extends TestCase
@@ -14,29 +17,27 @@ class ThumbnailControllerTest extends TestCase
      */
     public function it_thumbnail_generate_success(): void
     {
-        $dir = 'brands';
         $method = 'resize';
-        $size = '70x70';
-        $file = 'product_1.jpg';
+        $size = '500x500';
+        $storage = Storage::disk('images');
 
-        Storage::fake('images');
+       config()->set('thumbnail',['allowed_size' => [$size]]);
 
-        $image = UploadedFile::fake()->image($file, 200, 200);
+       $product = ProductFactory::new()->create();
 
-        Storage::disk('images')->putFileAs($dir, $image, $file);
+        $response = $this->get($product->makeThumbnail($size,$method));
 
-        $response = $this->get(action(
-                ThumbnailController::class, [
-                    'dir' => $dir,
-                    'method' => $method,
-                    'size' => $size,
-                    'file' => $file
-                ]
-            )
-        );
-
-        $response->assertSuccessful();
-        $response->assertHeader('content-type', 'image/jpeg');
+        //Mocking Image
+//        Image::shouldReceive('make')
+//        ->once()
+//        ->andReturnSelf()
+//        ->shouldReceive('resize')
+//        ->once()
+//        ->shouldReceive('save')
+//        ->once()
+//        ->andReturn();
+        $response->assertOk();
+        $storage->assertExists("products/$method/$size/". File::basename($product->thumbnail));
     }
 
     /**
