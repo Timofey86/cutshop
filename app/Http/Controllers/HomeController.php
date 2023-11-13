@@ -11,7 +11,7 @@ use Illuminate\Foundation\Application;
 
 class HomeController extends Controller
 {
-    public function __invoke(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    public function __invoke(): Factory|Application|View
     {
         $categories = CategoryViewModel::make()->homePage();
 

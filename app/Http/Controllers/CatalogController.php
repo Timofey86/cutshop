@@ -12,7 +12,7 @@ use Illuminate\Foundation\Application;
 
 class CatalogController extends Controller
 {
-    public function __invoke(?Category $category): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
+    public function __invoke(?Category $category): Factory|Application|View
     {
 //        $brands = Brand::query()
 //            ->select(['id', 'title'])
