@@ -14,10 +14,10 @@ class CatalogController extends Controller
 {
     public function __invoke(?Category $category): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
-        $brands = Brand::query()
-            ->select(['id', 'title'])
-            ->has('products')
-            ->get();
+//        $brands = Brand::query()
+//            ->select(['id', 'title'])
+//            ->has('products')
+//            ->get();
 
         $categories = Category::query()
             ->select(['id', 'title', 'slug'])
@@ -40,7 +40,7 @@ class CatalogController extends Controller
             ->sorted()
             ->paginate(6);
 
-        return view('catalog.index', compact('products','categories', 'brands', 'category'));
+        return view('catalog.index', compact('products','categories', /*'brands',*/ 'category'));
     }
 
 }
