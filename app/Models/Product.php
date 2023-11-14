@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Domain\Catalog\Facades\Sorter;
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
@@ -70,13 +72,8 @@ class Product extends Model
 
     public function scopeSorted(Builder $query)
     {
-        $query->when(request('sort'), function (Builder $q){
-            $column = request()->str('sort');
-            if ($column->contains(['price', 'title'])) {
-                $direction = $column->contains('-') ? "DESC" : "ASC";
-                $q->orderBy((string) $column->remove('-'), $direction);
-            }
-        });
+        Sorter::run($query);
+//        sorter()->run($query);
     }
 
     public function scopeHomePage(Builder $query)

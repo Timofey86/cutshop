@@ -13,19 +13,23 @@ class ProductController extends Controller
     {
         $product->load(['optionValues.option']);
 
-        $also = Product::query()
-            ->where(function ($q) use ($product) {
-            $q->whereIn('id', session('also'))
-            ->where('id', '!=', $product->id);
-        })->get();
+        $also = [];
+        if (session('also')) {
+            $also = Product::query()
+                ->where(function ($q) use ($product) {
+                    $q->whereIn('id', session('also'))
+                        ->where('id', '!=', $product->id);
+                })->get();
+        }
 
-        $options = $product->optionValues->mapToGroups(function ($item){
+
+        $options = $product->optionValues->mapToGroups(function ($item) {
             return [$item->option->title => $item];
         });
 
         session()->put('also.' . $product->id, $product->id);
 
-        return view('product.show',[
+        return view('product.show', [
             'product' => $product,
             'options' => $options,
             'also' => $also
