@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Database\Factories\BrandFactory;
 use Database\Factories\ProductFactory;
-use Database\Factories\PropertyFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

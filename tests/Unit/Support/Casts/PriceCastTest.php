@@ -2,7 +2,7 @@
 
 namespace Support\Casts;
 
-use App\Models\Product;
+use Domain\Product\Models\Product;
 use InvalidArgumentException;
 use Support\ValueObjects\Price;
 use Tests\TestCase;

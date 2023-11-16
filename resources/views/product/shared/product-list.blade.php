@@ -1,7 +1,7 @@
 <!-- Product card -->
 <div class="product-card flex flex-col md:flex-row rounded-3xl bg-card">
     <a href="{{route('product',['product' => $item->slug])}}"
-       class="product-card-photo overflow-hidden h-[320px] rounded-3xl">
+       class="product-card-photo overflow-hidden shrink-0 md:w-[260px] xl:grid-cols-5 rounded-3xl">
         <img src="{{$item->makeThumbnail('345x320')}}"
              class="object-cover w-full h-full" alt="{{ $item->title }}">
     </a>
@@ -10,14 +10,13 @@
                                                      class="inline-block text-white hover:text-pink">
                 {{ $item->title }}
             </a></h3>
-        <ul class="space-y-1 mt-4 text-xxs">
-            <li class="flex justify-between text-body"><strong class="text-white">Вес (г):</strong> 92</li>
-            <li class="flex justify-between text-body"><strong class="text-white">Тип сенсора:</strong> Оптический</li>
-            <li class="flex justify-between text-body"><strong class="text-white">DPI мыши:</strong> 18000</li>
-            <li class="flex justify-between text-body"><strong class="text-white">Количество кнопок мыши:</strong> 8
-            </li>
-            <li class="flex justify-between text-body"><strong class="text-white">Подсветка:</strong> RGB</li>
-        </ul>
+        @if($item->json_properties)
+            <ul class="space-y-1 mt-4 text-xxs">
+                @foreach($item->json_properties as $property => $value)
+                <li class="flex justify-between text-body"><strong class="text-white">{{$property}}</strong> {{$value}}</li>
+                @endforeach
+            </ul>
+        @endif
         <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mt-6">
             <div class="flex items-baseline gap-4">
                 <div class="text-pink text-md xl:text-lg font-black">{{ $item->price }}</div>
