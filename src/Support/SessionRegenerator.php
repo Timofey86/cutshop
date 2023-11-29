@@ -2,8 +2,8 @@
 
 namespace Support;
 
-use App\Events\AfterSessionRegenerated;
 use Closure;
+use Domain\Order\Events\AfterSessionRegenerated;
 
 class SessionRegenerator
 {

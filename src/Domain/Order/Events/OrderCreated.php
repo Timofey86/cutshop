@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Events;
+namespace Domain\Order\Events;
 
+use Domain\Order\Models\Order;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AfterSessionRegenerated
+class OrderCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -14,12 +15,10 @@ class AfterSessionRegenerated
      * Create a new event instance.
      */
     public function __construct(
-        public string $old,
-        public string $current
+        public Order $order
     )
     {
         //
     }
-
 
 }
