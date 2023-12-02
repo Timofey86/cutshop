@@ -145,7 +145,7 @@
                         </div>
                     </div>
 
-                    <!-- Shipping & Payment -->
+                    <!-- Shipping & PaymentSystem -->
                     <div class="space-y-6 2xl:space-y-8">
 
                         <!-- Shipping -->
@@ -203,7 +203,7 @@
                             </div>
                         </div>
 
-                        <!-- Payment -->
+                        <!-- PaymentSystem -->
                         <div class="p-6 2xl:p-8 rounded-[20px] bg-card">
                             <h3 class="mb-6 text-md 2xl:text-lg font-bold">Метод оплаты</h3>
                             <div class="space-y-5">
