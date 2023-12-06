@@ -3,7 +3,7 @@
 namespace Support;
 
 use Closure;
-use Domain\Order\Events\AfterSessionRegenerated;
+use App\Events\AfterSessionRegenerated;
 
 class SessionRegenerator
 {

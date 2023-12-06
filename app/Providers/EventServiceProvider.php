@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\AfterSessionRegenerated;
 use App\Listeners\SendEmailNewUserListener;
 use Domain\Cart\CartManager;
-use Domain\Order\Events\AfterSessionRegenerated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
