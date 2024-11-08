@@ -4,6 +4,7 @@ namespace Domain\Auth\Providers;
 
 // use Illuminate\Services\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Passport::hashClientSecrets();
+
+        Passport::tokensCan([
+            'github_id' => 'Access to User avatar',
+//            'check-status' => 'Check order status',
+        ]);
         //
     }
 

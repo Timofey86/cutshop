@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\SeoMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
 class Kernel extends HttpKernel
 {
@@ -67,5 +68,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        'client' => CheckClientCredentials::class,
     ];
 }

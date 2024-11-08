@@ -14,6 +14,7 @@ use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -64,14 +65,14 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(20)
                 ->by($request->ip());
         });
-
+// Раскоментировать при апи запросах :) и закоментировать при web :D
 //        $this->routes(function () {
 //            Route::middleware('api')
 //                ->prefix('api')
 //                ->group(base_path('routes/api.php'));
 //
-//            Route::middleware('web')
-//                ->group(base_path('routes/web.php'));
+////            Route::middleware('web')
+////                ->group(base_path('routes/web.php'));
 //        });
     }
 
